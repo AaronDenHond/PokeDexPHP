@@ -1,35 +1,41 @@
 <?php
+
+//error reporting, do it every project
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
 //met accolades geen endif, in HTML wel nodig
+ 
+//USE var_dump() A LOT TO CHECK ERRORS AND CONTENTS OF VARS!!!
 
 //fetch poke data
-$pokeRawData = 'https://pokeapi.co/api/v2/pokemon/';
+$pokeRawData = 'https://pokeapi.co/api/v2/pokemon/1';
 
 $data = file_get_contents($pokeRawData);
-$pokeData = json_decode($data);
+//decode the data to JSON, second parameter needs to be true to make it return as array
+$pokeData = json_decode($data, true);
 
-//var dump to check
-/* var_dump($pokeData); */
+
 
 //variables we need with API data
 $pokeName = $pokeData['name'];
 $pokeID = $pokeData['id'];
-$pokeImage = $pokeData['sprites']['front-default'];
-var_dump($pokeName);
-var_dump($pokeID);
+$pokeImage = $pokeData['sprites']['front_default'];
+
+$pokeMove1 = $pokeData['moves'][0]['move']['name'];
+$pokeMove2 = $pokeData['moves'][1]['move']['name'];
+$pokeMove3 = $pokeData['moves'][2]['move']['name'];
+$pokeMove4 = $pokeData['moves'][3]['move']['name'];
 
 
-
-
+/* 
  if (isset($_GET["id"])){
     $pokemonID = $_GET["id"];   
     //we slagen pokeID op
     
- }
+ } */
 
- ?>
+?>
 
 
 <!DOCTYPE html>
@@ -46,15 +52,15 @@ var_dump($pokeID);
 
     <form method="get">
         Pokemon: <input type="text" name="id"><br>
-      
+
         <input type="submit">
     </form>
     <br>
-   
-        NAME: <?php echo htmlspecialchars($_GET["id"]); ?>
-        <br>
-         
-   
+
+    NAME: <?php echo htmlspecialchars($_GET["id"]); ?>
+    <br>
+
+
 </body>
 
 
