@@ -16,4 +16,12 @@ Check (for now...)
 4. make variables with important data : pokeName,pokeID,pokeImage,pokeMoves
    with data from Fetch
 
-(In progress)
+(Check)
+
+5. Display data in html
+
+(Check)
+
+6. Take user input (name/ID of pokemon) and return correct pokemon
+
+In progress
