@@ -22,6 +22,18 @@ Check (for now...)
 
 (Check)
 
-6. Take user input (name/ID of pokemon) and return correct pokemon
+6. Take user input ID of pokemon and return correct pokemon
 
-In progress
+(Check)
+
+7. Take user input name of pokemon and return correct pokemon
+
+(Check)
+
+8. Display image of pokemon, overwrite img src on form submit
+
+(Check
+
+9. Fetch evolutions
+
+(In Progress)

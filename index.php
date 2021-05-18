@@ -7,11 +7,23 @@ ini_set("display_errors", 1);
 //met accolades geen endif, in HTML wel nodig
 
 //USE var_dump() A LOT TO CHECK ERRORS AND CONTENTS OF VARS!!!
+$pokeUserInputID = 1;
+$pokeUserInputName = 1;
+//moet 1 zijn of warning on load with no user input
+if (isset($_GET["id"])) {
+    $pokeUserInputID = $_GET["id"];
+}
 
+if (isset($_GET["name"])){
+    $pokeUserInputName = $_GET["name"];
+}
 //fetch poke data
-$pokeRawData = 'https://pokeapi.co/api/v2/pokemon/1';
+$pokeRawData = 'https://pokeapi.co/api/v2/pokemon/' . $pokeUserInputID . $pokeUserInputName;
+//string concat in php with .   AND we want to change the link on submit by concatting userinputID
+
 
 $data = file_get_contents($pokeRawData);
+
 //decode the data to JSON, second parameter needs to be true to make it return as array
 $pokeData = json_decode($data, true);
 
@@ -29,11 +41,8 @@ $pokeMove4 = $pokeData['moves'][3]['move']['name'];
 
 // dont use DOMmanipulation (yet), just echo/print
 
-/* if (isset($_GET["id"])){
-    $pokemonID = $_GET["id"];   
-    //we slagen pokeID op
-    
- }  */
+
+
 
 ?>
 
@@ -59,7 +68,9 @@ $pokeMove4 = $pokeData['moves'][3]['move']['name'];
             </div>
 
             <div class="column">
-                <p><?php echo ($pokeImage); ?></p>
+                <div class="image">
+                <?php echo "<img src='" . $pokeImage . "'>"; ?>
+                </div>
                 <p><?php echo ($pokeMove1); ?></p>
                 <p><?php echo ($pokeMove2); ?></p>
                 <p><?php echo ($pokeMove3); ?></p>
@@ -69,26 +80,17 @@ $pokeMove4 = $pokeData['moves'][3]['move']['name'];
         <div class="row">
             <div class="column">
                 <form method="get">
-                    Pokemon NAME/ID: <input type="text" name="id">
+                    Pokemon ID: <input type="text" name="id">
+                    Pokemon Name: <input type="text" name="name">
                     <input type="submit">
+                   <!--  submit refreshes page  -->
                 </form>
             </div>
 
-            <div class="column">
-
-            </div>
         </div>
     </div>
 
 
-
-
-
-    <br>
-
-
-
-    </div>
 
 </body>
 
