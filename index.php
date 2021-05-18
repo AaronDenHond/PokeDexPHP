@@ -80,7 +80,7 @@ if (count($pokeData['moves']) < 4) {
 <body>
     <!-- Background image -->
 
-    <div class="container bg-danger rounded-pill">
+    <div class="container bg-danger rounded-pill" id="container2">
 
         <div class="row text-center">
             <div class="column">
@@ -96,8 +96,8 @@ if (count($pokeData['moves']) < 4) {
                 <li><?php echo ($pokeMove1); ?></li>
                 <li><?php echo ($pokeMove2); ?></li>
                 <li><?php echo ($pokeMove3); ?></li>
-                <li><?php echo ($pokeMove4); ?></li>
-                <div> <?php
+                <li class="pb-2"><?php echo ($pokeMove4); ?></li>
+                <div class="py-1"> <?php
 
                         if ($evoData['evolves_from_species'] === null) {
                             echo "This pokemon has no previous evolution";

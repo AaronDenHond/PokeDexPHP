@@ -3,3 +3,6 @@ body {
    background-image: url(pokeBG.png); 
    text-transform: capitalize;
 }
+.container#container2 {
+margin-top: 150px;
+}
