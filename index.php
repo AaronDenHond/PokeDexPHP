@@ -19,10 +19,14 @@ if (isset($_GET["name"])) {
     //strtolower zodat geen warning als hoofdletters input
 
 }
+$pokeRawData = 'https://pokeapi.co/api/v2/pokemon/' .  $pokeUserInputID . $pokeUserInputName;
+$pokeEvoRawData = 'https://pokeapi.co/api/v2/pokemon-species/' . $pokeUserInputID . $pokeUserInputName;
+$evoRawData = file_get_contents($pokeEvoRawData);
+$evoData = json_decode($evoRawData, true);
 
 
 //fetch poke data, first fetch
-$pokeRawData = 'https://pokeapi.co/api/v2/pokemon/' .  $pokeUserInputID . $pokeUserInputName;
+
 //string concat in php with .   AND we want to change the link on submit by concatting userinputID
 
 
@@ -32,32 +36,30 @@ $data = file_get_contents($pokeRawData);
 $pokeData = json_decode($data, true);
 
 //fetch evolution data, 2nd fetch
-$pokeEvoRawData = 'https://pokeapi.co/api/v2/pokemon-species/' . $pokeUserInputID . $pokeUserInputName;
-$evoRawData = file_get_contents($pokeEvoRawData);
-$evoData = json_decode($evoRawData, true);
 
 
-if ($evoData['evolves_from_species'] === null) {
-    echo "This pokemon has no previous evolution";
-} else {
-    echo "The previous evolution is" . " " . ($evoData['evolves_from_species']['name']);
-}
+
+
 
 //variables we need with API data
 $pokeName = $pokeData['name'];
 $pokeID = $pokeData['id'];
 $pokeImage = $pokeData['sprites']['front_default'];
-
-$pokeMove1 = $pokeData['moves'][0]['move']['name'];
-$pokeMove2 = $pokeData['moves'][1]['move']['name'];
-$pokeMove3 = $pokeData['moves'][2]['move']['name'];
-$pokeMove4 = $pokeData['moves'][3]['move']['name'];
-
+$pokeMove1 = '';
+$pokeMove2 = '';
+$pokeMove3 = '';
+$pokeMove4 = '';
+if (count($pokeData['moves']) < 4) {
+    $pokeMove1 = $pokeData['moves'][0]['move']['name'];
+} else {
+    $pokeMove1 = $pokeData['moves'][0]['move']['name'];
+    $pokeMove2 = $pokeData['moves'][1]['move']['name'];
+    $pokeMove3 = $pokeData['moves'][2]['move']['name'];
+    $pokeMove4 = $pokeData['moves'][3]['move']['name'];
+}
 
 
 // dont use DOMmanipulation (yet), just echo/print
-
-
 
 
 ?>
@@ -76,15 +78,15 @@ $pokeMove4 = $pokeData['moves'][3]['move']['name'];
 </head>
 
 <body>
-<!-- Background image -->
-   
-    <div class="container bg-danger">
-    
+    <!-- Background image -->
+
+    <div class="container bg-danger rounded-pill">
+
         <div class="row text-center">
             <div class="column">
                 <h1 class="py-5">Poke-Dex!</h2>
-                <h2><?php echo ($pokeName); ?></h2>
-                <h2><?php echo ($pokeID); ?></h2>
+                    <h2><?php echo ($pokeName); ?></h2>
+                    <h2>#<?php echo ($pokeID); ?></h2>
             </div>
 
             <div class="column">
@@ -95,6 +97,15 @@ $pokeMove4 = $pokeData['moves'][3]['move']['name'];
                 <li><?php echo ($pokeMove2); ?></li>
                 <li><?php echo ($pokeMove3); ?></li>
                 <li><?php echo ($pokeMove4); ?></li>
+                <div> <?php
+
+                        if ($evoData['evolves_from_species'] === null) {
+                            echo "This pokemon has no previous evolution";
+                        } else {
+                            echo "The previous evolution is" . " " . ($evoData['evolves_from_species']['name']);
+                        }
+
+                        ?></div>
 
             </div>
         </div>

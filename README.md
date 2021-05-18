@@ -39,4 +39,10 @@ Check (for now...)
 (Check)
 
 10. Display evo image and choose where evo data is displayed
-(in progress)
+(Check)
+
+11. Ditto fix 
+(Check)
+
+12. CSS
+in progress
