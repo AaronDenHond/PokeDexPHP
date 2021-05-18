@@ -32,8 +32,11 @@ Check (for now...)
 
 8. Display image of pokemon, overwrite img src on form submit
 
-(Check
+(Check)
 
 9. Fetch evolutions
 
-(In Progress)
+(Check)
+
+10. Display evo image and choose where evo data is displayed
+(in progress)
