@@ -1,5 +1,12 @@
-body {
+@font-face {
+   font-family: 'Pokemon Solid Normal';
+   font-style: normal;
+   font-weight: normal;
+   src: local('Pokemon Solid Normal'), url('Pokemon Solid.woff') format('woff');
+   }
 
+body {
+   font-family: 'Pokemon Solid Normal';
    background-image: url(pokeBG.png); 
    text-transform: capitalize;
 }

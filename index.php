@@ -19,6 +19,8 @@ if (isset($_GET["name"])) {
     //strtolower zodat geen warning als hoofdletters input
 
 }
+
+
 $pokeRawData = 'https://pokeapi.co/api/v2/pokemon/' .  $pokeUserInputID . $pokeUserInputName;
 $pokeEvoRawData = 'https://pokeapi.co/api/v2/pokemon-species/' . $pokeUserInputID . $pokeUserInputName;
 $evoRawData = file_get_contents($pokeEvoRawData);
@@ -59,6 +61,8 @@ if (count($pokeData['moves']) < 4) {
 }
 
 
+
+
 // dont use DOMmanipulation (yet), just echo/print
 
 
@@ -84,9 +88,9 @@ if (count($pokeData['moves']) < 4) {
 
         <div class="row text-center">
             <div class="column">
-                <h1 class="py-5">Poke-Dex!</h2>
-                    <h2><?php echo ($pokeName); ?></h2>
-                    <h2>#<?php echo ($pokeID); ?></h2>
+                <h1 class="py-5 text-warning">PHPokédex!</h1>
+                <h2 class="text-white"><?php echo ($pokeName); ?></h2>
+                <h2 class="text-white">#<?php echo ($pokeID); ?></h2>
             </div>
 
             <div class="column">
@@ -99,13 +103,16 @@ if (count($pokeData['moves']) < 4) {
                 <li class="pb-2"><?php echo ($pokeMove4); ?></li>
                 <div class="py-1"> <?php
 
-                        if ($evoData['evolves_from_species'] === null) {
-                            echo "This pokemon has no previous evolution";
-                        } else {
-                            echo "The previous evolution is" . " " . ($evoData['evolves_from_species']['name']);
-                        }
+                                    if ($evoData['evolves_from_species'] === null) {
+                                        echo "This pokemon has no previous evolution";
+                                    } else {
+                                        echo "The previous evolution is" . " " . ($evoData['evolves_from_species']['name']);
+                                    }
+                                    ?></div>
+                <p class="text-warning"><?php if (empty($_GET["id"]) && empty($_get["name"])) {
+                        echo "ID or name input necessary!";
+                    }  ?></p>
 
-                        ?></div>
 
             </div>
         </div>
