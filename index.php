@@ -1,43 +1,50 @@
 <?php
 
+declare(strict_types=1);
 //error reporting, do it every project
+ini_set('display_errors', "1");
+ini_set('display_startup_errors', "1");
 error_reporting(E_ALL);
-ini_set("display_errors", 1);
 
 //met accolades geen endif, in HTML wel nodig
 
 //USE var_dump() A LOT TO CHECK ERRORS AND CONTENTS OF VARS!!!
 $pokeUserInputID = 1;
-$pokeUserInputName = 1;
+
 //moet 1 zijn of warning on load with no user input
 if (isset($_GET["id"])) {
     $pokeUserInputID = $_GET["id"];
+} else {
+    $pokeUserInputID = 1;
 }
 
 if (isset($_GET["name"])) {
     $pokeUserInputName = strtolower($_GET["name"]);
     //strtolower zodat geen warning als hoofdletters input
-
+} else {
+    $pokeUserInputID = 1;
 }
+
+//fetch poke data, first fetch
+//fetch evolution data, 2nd fetch
+
+
+
 
 
 $pokeRawData = 'https://pokeapi.co/api/v2/pokemon/' .  $pokeUserInputID . $pokeUserInputName;
+$pokeData = getPokeData($pokeRawData);
+
 $pokeEvoRawData = 'https://pokeapi.co/api/v2/pokemon-species/' . $pokeUserInputID . $pokeUserInputName;
-$evoRawData = file_get_contents($pokeEvoRawData);
-$evoData = json_decode($evoRawData, true);
+$evoData = getPokeData($pokeEvoRawData);
 
 
-//fetch poke data, first fetch
 
 //string concat in php with .   AND we want to change the link on submit by concatting userinputID
 
 
-$data = file_get_contents($pokeRawData);
-
 //decode the data to JSON, second parameter needs to be true to make it return as array
-$pokeData = json_decode($data, true);
 
-//fetch evolution data, 2nd fetch
 
 
 
@@ -51,21 +58,28 @@ $pokeMove1 = '';
 $pokeMove2 = '';
 $pokeMove3 = '';
 $pokeMove4 = '';
-if (count($pokeData['moves']) < 4) {
-    $pokeMove1 = $pokeData['moves'][0]['move']['name'];
-} else {
-    $pokeMove1 = $pokeData['moves'][0]['move']['name'];
-    $pokeMove2 = $pokeData['moves'][1]['move']['name'];
-    $pokeMove3 = $pokeData['moves'][2]['move']['name'];
-    $pokeMove4 = $pokeData['moves'][3]['move']['name'];
+//isset checks if smth is in var, if so it will execute lines 63-65, if not it will do the else and not count(gave fatal error before)
+if (isset($pokeData['moves'])) {
+    if (count($pokeData['moves']) < 4) {
+        $pokeMove1 = $pokeData['moves'][0]['move']['name'];
+    } else {
+        $pokeMove1 = $pokeData['moves'][0]['move']['name'];
+        $pokeMove2 = $pokeData['moves'][1]['move']['name'];
+        $pokeMove3 = $pokeData['moves'][2]['move']['name'];
+        $pokeMove4 = $pokeData['moves'][3]['move']['name'];
+    }
 }
 
 
 
-
 // dont use DOMmanipulation (yet), just echo/print
+//made a function to get API
+function getPokeData($url) {
 
-
+    $data = file_get_contents($url);
+    
+    return json_decode($data, true);
+    }
 ?>
 
 
@@ -109,10 +123,11 @@ if (count($pokeData['moves']) < 4) {
                                         echo "The previous evolution is" . " " . ($evoData['evolves_from_species']['name']);
                                     }
                                     ?></div>
-                <p class="text-warning"><?php if (empty($_GET["id"]) && empty($_get["name"])) {
-                        echo "ID or name input necessary!";
-                    }  ?></p>
-
+                <!-- attempting to give user feedback if empty field -->
+                <p class="text-warning"><?php if (empty($_GET["id"]) && empty($_GET["name"])) {
+                                            echo "ID or name input necessary!";
+                                        }  ?></p>
+                <!--    Disable button with JS -->
 
             </div>
         </div>
@@ -121,7 +136,7 @@ if (count($pokeData['moves']) < 4) {
                 <form method="get">
                     Pokemon ID: <input type="text" name="id">
                     Pokemon Name: <input type="text" name="name">
-                    <input type="submit">
+                    <input type="submit" id="button">
                     <!--  submit refreshes page  -->
                 </form>
             </div>
