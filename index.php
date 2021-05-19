@@ -38,6 +38,8 @@ $pokeData = getPokeData($pokeRawData);
 $pokeEvoRawData = 'https://pokeapi.co/api/v2/pokemon-species/' . $pokeUserInputID . $pokeUserInputName;
 $evoData = getPokeData($pokeEvoRawData);
 
+$pokeEvoToRaw = 'https://pokeapi.co/api/v2/evolution-chain/' . $pokeUserInputID . $pokeUserInputName;
+$pokeEvoTo = getPokeData($pokeEvoToRaw);
 
 
 //string concat in php with .   AND we want to change the link on submit by concatting userinputID
@@ -58,6 +60,7 @@ $pokeMove1 = '';
 $pokeMove2 = '';
 $pokeMove3 = '';
 $pokeMove4 = '';
+$pokeEvolution = $pokeEvoTo["chain"]["evolves_to"][0]["species"]["name"];
 //isset checks if smth is in var, if so it will execute lines 63-65, if not it will do the else and not count(gave fatal error before)
 if (isset($pokeData['moves'])) {
     if (count($pokeData['moves']) < 4) {
@@ -74,12 +77,13 @@ if (isset($pokeData['moves'])) {
 
 // dont use DOMmanipulation (yet), just echo/print
 //made a function to get API
-function getPokeData($url) {
+function getPokeData($url)
+{
 
     $data = file_get_contents($url);
-    
+
     return json_decode($data, true);
-    }
+}
 ?>
 
 
@@ -120,9 +124,19 @@ function getPokeData($url) {
                                     if ($evoData['evolves_from_species'] === null) {
                                         echo "This pokemon has no previous evolution";
                                     } else {
-                                        echo "The previous evolution is" . " " . ($evoData['evolves_from_species']['name']);
+                                        echo "The previous evolution is " . ($evoData['evolves_from_species']['name']);
                                     }
+
                                     ?></div>
+                <div class="py-1">
+                    <?php
+                    if ($pokeEvolution === null) {
+                        echo "This pokemon has no evolution";
+                    } else {
+                        echo "This pokemon evolves to " . $pokeEvolution;
+                    }
+                    ?>
+                </div>
                 <!-- attempting to give user feedback if empty field -->
                 <p class="text-warning"><?php if (empty($_GET["id"]) && empty($_GET["name"])) {
                                             echo "ID or name input necessary!";
