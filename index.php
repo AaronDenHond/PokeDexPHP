@@ -10,21 +10,18 @@ error_reporting(E_ALL);
 
 //USE var_dump() A LOT TO CHECK ERRORS AND CONTENTS OF VARS!!!
 $pokeUserInputID = 1;
+$pokeUserInputName = 1;
+
 
 //moet 1 zijn of warning on load with no user input
 if (isset($_GET["id"])) {
     $pokeUserInputID = $_GET["id"];
-} else {
-    $pokeUserInputID = 1;
-}
+} 
 
 if (isset($_GET["name"])) {
     $pokeUserInputName = strtolower($_GET["name"]);
     //strtolower zodat geen warning als hoofdletters input
-} else {
-    $pokeUserInputID = 1;
-}
-
+} 
 //fetch poke data, first fetch
 //fetch evolution data, 2nd fetch
 
@@ -61,6 +58,14 @@ $pokeMove2 = '';
 $pokeMove3 = '';
 $pokeMove4 = '';
 $pokeEvolution = $pokeEvoTo["chain"]["evolves_to"][0]["species"]["name"];
+if (isset($pokeEvolution)) {
+    $pokeEvolution = "This pokemon evolves to " . $pokeEvolution; 
+
+}
+
+else {
+    "This pokemon has no evolution";
+}
 //isset checks if smth is in var, if so it will execute lines 63-65, if not it will do the else and not count(gave fatal error before)
 if (isset($pokeData['moves'])) {
     if (count($pokeData['moves']) < 4) {
@@ -76,6 +81,7 @@ if (isset($pokeData['moves'])) {
 
 
 // dont use DOMmanipulation (yet), just echo/print
+
 //made a function to get API
 function getPokeData($url)
 {
@@ -130,11 +136,7 @@ function getPokeData($url)
                                     ?></div>
                 <div class="py-1">
                     <?php
-                    if ($pokeEvolution === null) {
-                        echo "This pokemon has no evolution";
-                    } else {
-                        echo "This pokemon evolves to " . $pokeEvolution;
-                    }
+                  echo $pokeEvolution;
                     ?>
                 </div>
                 <!-- attempting to give user feedback if empty field -->

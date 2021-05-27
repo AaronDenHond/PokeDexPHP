@@ -1,10 +1,23 @@
 # PokeDexPHP
 PokeDex made in PHP
 
+Learning objectives
+
+    Starting with PHP
+        To be able to write a simple condition and a simple loop
+        (check)
+        To know how to access external resources (API)
+        (check)
+        To know where to search for PHP documentation
+        (check)
+    To find out how much easier it is to learn a second programming language
+
+
 Plan of attack :
 
 1. Make sure everything works (lots of PHP and Apache troubleshooting).
 Check (for now...)
+UPDATE : next evolution broke the Pokedex, will try to rewrite the project in OOP.
 
 2. Test form, so users can input ID/name of pokemon
 (Check)
@@ -44,5 +57,10 @@ Check (for now...)
 11. Ditto fix 
 (Check)
 
+
 12. CSS
 in progress
+
+13. Next evolution
+Failed, doesn't show the right next evo, probably due to the evolution link not working like the species
+and normal one.
