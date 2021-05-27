@@ -12,16 +12,20 @@ error_reporting(E_ALL);
 $pokeUserInputID = 1;
 $pokeUserInputName = 1;
 
-
 //moet 1 zijn of warning on load with no user input
 if (isset($_GET["id"])) {
     $pokeUserInputID = $_GET["id"];
-} 
+} else {
+    $pokeUserInputID = 1;
+}
 
 if (isset($_GET["name"])) {
     $pokeUserInputName = strtolower($_GET["name"]);
     //strtolower zodat geen warning als hoofdletters input
-} 
+} else {
+    $pokeUserInputID = 1;
+}
+
 //fetch poke data, first fetch
 //fetch evolution data, 2nd fetch
 
@@ -35,16 +39,12 @@ $pokeData = getPokeData($pokeRawData);
 $pokeEvoRawData = 'https://pokeapi.co/api/v2/pokemon-species/' . $pokeUserInputID . $pokeUserInputName;
 $evoData = getPokeData($pokeEvoRawData);
 
-$pokeEvoToRaw = 'https://pokeapi.co/api/v2/evolution-chain/' . $pokeUserInputID . $pokeUserInputName;
-$pokeEvoTo = getPokeData($pokeEvoToRaw);
 
 
 //string concat in php with .   AND we want to change the link on submit by concatting userinputID
 
 
 //decode the data to JSON, second parameter needs to be true to make it return as array
-
-
 
 
 
@@ -57,15 +57,6 @@ $pokeMove1 = '';
 $pokeMove2 = '';
 $pokeMove3 = '';
 $pokeMove4 = '';
-$pokeEvolution = $pokeEvoTo["chain"]["evolves_to"][0]["species"]["name"];
-if (isset($pokeEvolution)) {
-    $pokeEvolution = "This pokemon evolves to " . $pokeEvolution; 
-
-}
-
-else {
-    "This pokemon has no evolution";
-}
 //isset checks if smth is in var, if so it will execute lines 63-65, if not it will do the else and not count(gave fatal error before)
 if (isset($pokeData['moves'])) {
     if (count($pokeData['moves']) < 4) {
@@ -81,21 +72,18 @@ if (isset($pokeData['moves'])) {
 
 
 // dont use DOMmanipulation (yet), just echo/print
-
 //made a function to get API
-function getPokeData($url)
-{
+function getPokeData($url) {
 
     $data = file_get_contents($url);
 
     return json_decode($data, true);
-}
+    }
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -104,19 +92,15 @@ function getPokeData($url)
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <!-- Background image -->
-
     <div class="container bg-danger rounded-pill" id="container2">
-
         <div class="row text-center">
             <div class="column">
                 <h1 class="py-5 text-warning">PHPokédex!</h1>
                 <h2 class="text-white"><?php echo ($pokeName); ?></h2>
                 <h2 class="text-white">#<?php echo ($pokeID); ?></h2>
             </div>
-
             <div class="column">
                 <div class="image">
                     <?php echo "<img src='" . $pokeImage . "'>"; ?>
@@ -126,19 +110,12 @@ function getPokeData($url)
                 <li><?php echo ($pokeMove3); ?></li>
                 <li class="pb-2"><?php echo ($pokeMove4); ?></li>
                 <div class="py-1"> <?php
-
                                     if ($evoData['evolves_from_species'] === null) {
                                         echo "This pokemon has no previous evolution";
                                     } else {
-                                        echo "The previous evolution is " . ($evoData['evolves_from_species']['name']);
+                                        echo "The previous evolution is" . " " . ($evoData['evolves_from_species']['name']);
                                     }
-
                                     ?></div>
-                <div class="py-1">
-                    <?php
-                  echo $pokeEvolution;
-                    ?>
-                </div>
                 <!-- attempting to give user feedback if empty field -->
                 <p class="text-warning"><?php if (empty($_GET["id"]) && empty($_GET["name"])) {
                                             echo "ID or name input necessary!";
@@ -156,13 +133,7 @@ function getPokeData($url)
                     <!--  submit refreshes page  -->
                 </form>
             </div>
-
         </div>
     </div>
-
-
-
 </body>
-
-
 </html>

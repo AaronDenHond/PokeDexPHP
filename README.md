@@ -12,6 +12,9 @@ Learning objectives
         (check)
     To find out how much easier it is to learn a second programming language
 
+UPDATE 27/5 : 
+Broken PHPokedex fixed, but at the cost of functionality. Next evo doesnt show  but errors with searching 
+by name and on page load have been fixed.
 
 Plan of attack :
 
@@ -64,3 +67,4 @@ in progress
 13. Next evolution
 Failed, doesn't show the right next evo, probably due to the evolution link not working like the species
 and normal one.
+
